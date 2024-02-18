@@ -27,7 +27,6 @@ func genRandomStartPoint() {
 	x := rand.Intn(29)
 	y := rand.Intn(29)
 	Snake.Head[0],Snake.Head[1] = x,y
-	Snake.Body = make(map[[2]int]bool)
 	Grid[x][y].IsSnakeHead = true
 	Grid[x][y].Value = 2
 }
