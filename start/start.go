@@ -51,9 +51,11 @@ func PrintGrid() {
 				colors.Red.Print(" ", " ")
 				// } else if colvalue.IsSnakeBody {
 				// 	colors.Green.Print(" ", " ")
-			} else if colvalue.IsVisible {
+			} else if colvalue.IsVisible && !colvalue.IsPath {
 				colors.Blue.Print(" ", " ")
-			} else {
+			} else if colvalue.IsPath{
+				colors.Red.Print(" "," ")
+			}else {
 				fmt.Print("-", " ")
 			}
 		}
@@ -80,43 +82,61 @@ func moveSnakeHead() {
 	nextSnakeHead()
 }
 
-func nextSnakeHead() {
-	searchBait(g_snake.Head[0], g_snake.Head[1])
+func newSearchNode(r int, c int, prevNode *structs.Node) *structs.Node{
+	newNode := *new(structs.Node)
+	newNode.Next = prevNode
+	newNode.Value = [2]int{r,c}
+	return &newNode
 }
 
-func searchBait(r int, c int) {
-	g_grid[r][c].IsVisible = true
-	
+func nextSnakeHead() {
+	searchBait(g_snake.Head[0], g_snake.Head[1],newSearchNode(g_snake.Head[0],g_snake.Head[1],nil))
+	makeSnakePath()
+}
+
+func makeSnakePath(){
+	for tempBait.Next != nil{
+		fmt.Println(tempBait.Value[0],tempBait.Value[1])
+		g_grid[tempBait.Value[0]][tempBait.Value[1]].IsPath = true
+		tempBait = *tempBait.Next
+	}
+}
+
+var tempBait structs.Node
+func searchBait(r int, c int, prevNode *structs.Node) {
+	// g_grid[r][c].IsVisible = true
+	newNode := newSearchNode(r,c,prevNode)
 	time.Sleep(1 * time.Millisecond)
 	g_searchedCellsMutex.Lock()
 	g_searchedCells[[2]int{r, c}] = true
 	g_searchedCellsMutex.Unlock()
 	if g_grid[r][c].IsBait {
+		tempBait = *newNode
 		g_foundBait = [2]int{r,c}
 		g_SearchOver = true
 		return
 	}
 	g_searchedCellsMutex.RLock()
 	if !g_SearchOver  && c+1 < 30 && !g_searchedCells[[2]int{r, c + 1}] {
-		go searchBait(r, c+1)
+		go searchBait(r, c+1, newNode)
 	}
 	g_searchedCellsMutex.RUnlock()
 	g_searchedCellsMutex.RLock()
 	if !g_SearchOver && r-1 >= 0 && !g_searchedCells[[2]int{r - 1, c}] {
 
-		go searchBait(r-1, c)
+		go searchBait(r-1, c, newNode)
 	}
 	g_searchedCellsMutex.RUnlock()
 	g_searchedCellsMutex.RLock()
 	if !g_SearchOver && c-1 >= 0 && !g_searchedCells[[2]int{r, c - 1}] {
 
-		go searchBait(r, c-1)
+		go searchBait(r, c-1, newNode)
 	}
 	g_searchedCellsMutex.RUnlock()
 	g_searchedCellsMutex.RLock()
 	if !g_SearchOver && r+1 < 30 && !g_searchedCells[[2]int{r + 1, c}] {
 
-		go searchBait(r+1, c)
+		go searchBait(r+1, c, newNode)
 	}
 	g_searchedCellsMutex.RUnlock()
 	// return -1, -1

@@ -6,18 +6,16 @@ type Cell struct {
 	IsSnakeHead bool
 	IsSnakeBody bool
 	Value       rune
+	IsPath      bool
 }
 type SnakeBody struct {
-	Head [2]int
-	Body Node
+	Head     [2]int
+	Body     Node
 	HeadNode Node
-	BodySize int;
+	BodySize int
 }
-
 
 type Node struct {
 	Value [2]int
-	Next *Node
+	Next  *Node
 }
-
-
