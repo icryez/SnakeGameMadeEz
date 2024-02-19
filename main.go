@@ -11,12 +11,12 @@ var Grid [30][30]structs.Cell
 
 func main() {
 
-	generateRandomBait()
+	GenerateRandomBait()
 	genRandomStartPoint()
 	start.StartGame(Grid, Snake)
 }
 
-func generateRandomBait() {
+func GenerateRandomBait() {
 	x := rand.Intn(29)
 	y := rand.Intn(29)
 	Grid[x][y].IsBait = true
