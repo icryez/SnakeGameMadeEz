@@ -1,7 +1,7 @@
 package structs
 
 type Cell struct {
-	isVisible   bool
+	IsVisible   bool
 	IsBait      bool
 	IsSnakeHead bool
 	IsSnakeBody bool
@@ -10,6 +10,7 @@ type Cell struct {
 type SnakeBody struct {
 	Head [2]int
 	Body Node
+	HeadNode Node
 	BodySize int;
 }
 
@@ -18,3 +19,5 @@ type Node struct {
 	Value [2]int
 	Next *Node
 }
+
+
