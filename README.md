@@ -3,6 +3,7 @@
 
 This project is a self-playing Snake game where the snake autonomously navigates the grid to locate and consume bait. Utilizing a concurrent search algorithm, the snake seeks out bait.
 
+![SnakeGameGIF](https://github.com/icryez/SnakeGameMadeEz/assets/35337801/545d6386-8670-466b-9c5c-8d9892aed0f3)
 
 ## Purpose
 The primary goal of this project is to demonstrate the capabilities of concurrent programming in Go using Go routines and knowledge of data structures and algorithms. 
