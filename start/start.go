@@ -27,13 +27,12 @@ func StartGame(grid [30][30]structs.Cell, snakeBody structs.SnakeBody) {
 	g_snake = snakeBody
 	g_searchedCells = make(map[[2]int]bool)
 	firstBait = true
-	g_snake.Body = *newBodyNode([2]int{g_snake.Head[0] - 1, g_snake.Head[1]})
 	PrintGrid()
 	for !g_gameover {
 		moveSnakeHead()
 		CallClear()
 		PrintGrid()
-	
+
 	}
 }
 func GenerateRandomBait() {
@@ -78,22 +77,26 @@ func moveSnakeHead() {
 	if pathFromSearch != nil {
 		for _, v := range pathFromSearch {
 			time.Sleep(130 * time.Millisecond)
-			// temp := &g_snake.Body
-			// for temp.Next != nil {
-			// 	temp = temp.Next
-			// }
-			// temp.Next = newBodyNode(g_snake.Head)
+			moveSnakeBody()
 			g_snake.Head = v
-			// moveSnakeBody()
 			CallClear()
 			PrintGrid()
-			if g_snake.Head == g_foundBait{
-				// temp.Next = newBodyNode(v)
+			if g_snake.Head == g_foundBait {
 				GenerateRandomBait()
 				g_grid[tempBait.Value[0]][tempBait.Value[1]].IsBait = false
 				pathFromSearch = nil
 				g_searchedCells = make(map[[2]int]bool)
 				g_SearchOver = false
+				temp := &g_snake.Body
+				if temp != nil && temp.Next != nil {
+					temp = temp.Next
+				}
+				if temp != nil {
+					temp.Next = newBodyNode(g_snake.Head)
+				}
+				if temp == nil {
+					g_snake.Body = *newBodyNode(g_snake.Head)
+				}
 			}
 		}
 
@@ -133,7 +136,7 @@ func searchBait(r int, c int, prevNode *structs.Node) {
 	g_searchedCellsMutex.Lock()
 	g_searchedCells[[2]int{r, c}] = true
 	g_searchedCellsMutex.Unlock()
-	if g_grid[r][c].IsBait && !g_SearchOver{
+	if g_grid[r][c].IsBait && !g_SearchOver {
 		tempBait = *newNode
 		g_foundBait = [2]int{r, c}
 		g_SearchOver = true
@@ -164,15 +167,17 @@ func searchBait(r int, c int, prevNode *structs.Node) {
 	g_searchedCellsMutex.RUnlock()
 }
 
-// func moveSnakeBody() {
-// 	if &g_snake.Body == nil {
-// 		return
-// 	}
-// 	temp := &g_snake.Body
-// 	for temp.Next != nil {
-// 		g_grid[temp.Value[0]][temp.Value[1]].IsSnakeBody = true
-// 		temp = temp.Next
-// 	}
-// 	g_grid[g_snake.Body.Value[0]][g_snake.Body.Value[1]].IsSnakeBody = false
-// 	g_snake.Body = *g_snake.Body.Next
-// }
+func moveSnakeBody() {
+	if &g_snake.Body == nil {
+		g_snake.Body = *newBodyNode(g_snake.Head)
+	}
+	temp := &g_snake.Body
+	for temp.Next != nil {
+		g_grid[temp.Value[0]][temp.Value[1]].IsSnakeBody = true
+		temp = temp.Next
+	}
+	g_grid[g_snake.Body.Value[0]][g_snake.Body.Value[1]].IsSnakeBody = false
+	if g_snake.Body.Next != nil {
+		g_snake.Body = *g_snake.Body.Next
+	}
+}
