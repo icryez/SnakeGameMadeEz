@@ -60,7 +60,7 @@ func PrintGrid() {
 			} else if colvalue.IsPath {
 				colors.Red.Print(" ", " ")
 			} else {
-				fmt.Print("-", " ")
+				fmt.Print(" ", " ")
 			}
 		}
 		fmt.Println("|")
@@ -74,12 +74,12 @@ func newBodyNode(head [2]int) *structs.Node {
 	return &newNode
 }
 func moveSnakeHead() {
-	time.Sleep(500 * time.Millisecond)
+	time.Sleep(200 * time.Millisecond)
 	nextSnakeHead()
-	time.Sleep(500 * time.Millisecond)
+	time.Sleep(200 * time.Millisecond)
 	if pathFromSearch != nil {
 		for _, v := range pathFromSearch {
-			time.Sleep(100 * time.Millisecond)
+			time.Sleep(200 * time.Millisecond)
 			temp := &g_snake.Body
 			for temp.Next != nil {
 				temp = temp.Next
