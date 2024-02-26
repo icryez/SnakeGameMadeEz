@@ -1,7 +1,7 @@
 
 # Snake Game
 
-This project is a self-playing Snake game where the snake autonomously navigates the grid to locate and consume bait. Utilizing a concurrent search algorithm, the snake seeks out bait.
+This project is a self-playing Snake game where the snake autonomously navigates the grid to locate and consume bait. Utilizing a concurrent search algorithm, the snake seeks out bait. //TBI - SnakeBody implementations
 
 ![SnakeGameGIF](https://github.com/icryez/SnakeGameMadeEz/assets/35337801/545d6386-8670-466b-9c5c-8d9892aed0f3)
 
