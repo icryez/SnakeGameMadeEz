@@ -83,6 +83,9 @@ func newBodyNode(head [2]int) *structs.Node {
 func moveSnakeHead() {
 	// g_snake.Head[1]++
 	// g_snake.Head = nextSnakeHead()
+	fmt.Println(g_snake.Head)
+	var input int
+	fmt.Scan(&input)
 	nextSnakeHead()
 	time.Sleep(500 * time.Millisecond)
 	if pathFromSearch != nil {
@@ -104,6 +107,8 @@ func moveSnakeHead() {
 				GenerateRandomBait()
 				g_grid[tempBait.Value[0]][tempBait.Value[1]].IsBait = false
 				pathFromSearch = nil
+				g_searchedCells = make(map[[2]int]bool)
+				g_SearchOver = false
 			}
 		}
 
@@ -119,7 +124,7 @@ func newSearchNode(r int, c int, prevNode *structs.Node) *structs.Node {
 
 func nextSnakeHead() {
 	searchBait(g_snake.Head[0], g_snake.Head[1], newSearchNode(g_snake.Head[0], g_snake.Head[1], nil))
-	fmt.Println(g_snake.Head)
+	fmt.Println(tempBait.Value)
 	var input int
 	fmt.Scan(&input)
 	makeSnakePath()
@@ -146,7 +151,7 @@ func searchBait(r int, c int, prevNode *structs.Node) {
 	g_searchedCellsMutex.Lock()
 	g_searchedCells[[2]int{r, c}] = true
 	g_searchedCellsMutex.Unlock()
-	if g_grid[r][c].IsBait {
+	if g_grid[r][c].IsBait && !g_SearchOver{
 		tempBait = *newNode
 		g_foundBait = [2]int{r, c}
 		g_SearchOver = true
