@@ -83,9 +83,9 @@ func newBodyNode(head [2]int) *structs.Node {
 func moveSnakeHead() {
 	// g_snake.Head[1]++
 	// g_snake.Head = nextSnakeHead()
-	fmt.Println(g_snake.Head)
-	var input int
-	fmt.Scan(&input)
+	// fmt.Println(g_snake.Head)
+	// var input int
+	// fmt.Scan(&input)
 	nextSnakeHead()
 	time.Sleep(500 * time.Millisecond)
 	if pathFromSearch != nil {
@@ -124,9 +124,9 @@ func newSearchNode(r int, c int, prevNode *structs.Node) *structs.Node {
 
 func nextSnakeHead() {
 	searchBait(g_snake.Head[0], g_snake.Head[1], newSearchNode(g_snake.Head[0], g_snake.Head[1], nil))
-	fmt.Println(tempBait.Value)
-	var input int
-	fmt.Scan(&input)
+	// fmt.Println(tempBait.Value)
+	// var input int
+	// fmt.Scan(&input)
 	makeSnakePath()
 }
 
