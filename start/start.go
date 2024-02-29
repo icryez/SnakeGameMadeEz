@@ -9,6 +9,7 @@ import (
 	"time"
 )
 
+var pathFromSearch [][2]int
 var g_grid [30][30]structs.Cell
 var g_snake structs.SnakeBody
 var g_searchedCells map[[2]int]bool
@@ -113,11 +114,9 @@ func newSearchNode(r int, c int, prevNode *structs.Node) *structs.Node {
 func nextSnakeHead() {
 	searchBait(g_snake.Head[0], g_snake.Head[1], newSearchNode(g_snake.Head[0], g_snake.Head[1], nil))
 	time.Sleep(50 * time.Millisecond)
-
 	makeSnakePath()
 }
 
-var pathFromSearch [][2]int
 
 func makeSnakePath() {
 	temp := tempBait
