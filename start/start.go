@@ -72,6 +72,8 @@ func newBodyNode(head [2]int) *structs.Node {
 	newNode.Value = head
 	return &newNode
 }
+
+
 func moveSnakeHead() {
 	time.Sleep(50 * time.Millisecond)
 	nextSnakeHead()
@@ -117,7 +119,6 @@ func nextSnakeHead() {
 	makeSnakePath()
 }
 
-
 func makeSnakePath() {
 	temp := tempBait
 	for temp.Next != nil {
@@ -128,6 +129,8 @@ func makeSnakePath() {
 		pathFromSearch[i], pathFromSearch[j] = pathFromSearch[j], pathFromSearch[i]
 	}
 }
+
+// TODO : Write using queue instead of go routines
 
 func searchBait(r int, c int, prevNode *structs.Node) {
 	newNode := newSearchNode(r, c, prevNode)
